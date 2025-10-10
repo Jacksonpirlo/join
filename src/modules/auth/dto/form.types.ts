@@ -6,5 +6,6 @@ export interface formProps {
     fields: inputFieldProps[];
     className: string;
     btnText: string;
-    googleBtnText: string
+    googleBtnText: string;
+    showGoogleButton?: boolean;
 }
