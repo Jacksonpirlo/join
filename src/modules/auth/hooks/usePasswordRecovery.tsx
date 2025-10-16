@@ -30,7 +30,6 @@ export const usePasswordRecovery = (): UsePasswordRecoveryReturn => {
         return;
       }
 
-      // Llamada al backend
       await axios.post('http://localhost:3004/auth/forgot-password', {
         email: cleanEmail,
       });

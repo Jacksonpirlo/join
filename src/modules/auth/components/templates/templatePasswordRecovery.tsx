@@ -11,7 +11,7 @@ const TemplatePasswordRecovery = () => {
   const { sendRecoveryEmail, isLoading, success } = usePasswordRecovery();
   const router = useRouter();
 
-  const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     setEmail(e.target.value);
   };
 
