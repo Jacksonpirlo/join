@@ -32,7 +32,7 @@ export const useLogin = (): UseLoginReturn => {
     setSuccess(false);
 
     try {
-      // 🧹 Sanitización antes de enviar al servidor
+      //Sanitización antes de enviar al servidor
       const cleanEmail = sanitizeInput(email).toLowerCase();
       const cleanPassword = sanitizeInput(password);
 
@@ -56,7 +56,7 @@ export const useLogin = (): UseLoginReturn => {
       toast.success('¡Login exitoso!');
 
       // Pequeño retraso visual antes de redirigir
-      setTimeout(() => router.push('/'), 1200);
+      setTimeout(() => router.push('/dashboard'), 1200);
       
     } catch (err) {
       let errorMessage = 'Datos incorrectos';
