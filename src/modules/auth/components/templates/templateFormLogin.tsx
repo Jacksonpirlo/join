@@ -18,7 +18,7 @@ const TemplateFormLogin = () => {
   //Maneja los cambios en los inputs
   const handleInputChange =
     (field: keyof typeof formData) =>
-    (e: React.ChangeEvent<HTMLInputElement>) => {
+    (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
       setFormData((prev) => ({
         ...prev,
         [field]: e.target.value,
@@ -45,7 +45,7 @@ const TemplateFormLogin = () => {
     onClick: handleSubmit,
     fields: [
       {
-        label: "Gmail",
+        label: "Email",
         value: formData.email,
         onChange: handleInputChange("email"),
         placeHolder: "Enter your email",
