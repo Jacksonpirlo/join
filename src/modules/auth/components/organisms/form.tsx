@@ -5,11 +5,9 @@ import Image from 'next/image';
 import { Button } from "../ui/button";
 import { useRouter } from "next/navigation";
 
-const FormOrg = ({titleOfTheForm, onClick, fields, className, btnText, googleBtnText, showForgotPassword = true, showGoogleButton = true}: formProps) => {
+const FormOrg = ({titleOfTheForm, onClick, onGoogleClick, fields, className, btnText, googleBtnText, showForgotPassword = true, showGoogleButton = true}: formProps) => {
   const router = useRouter();
-  const handleForgotPassword = () => {
-    router.push('/auth/forgot-password');
-  };
+  
   return (
     <div className={className}>
       <h2>{titleOfTheForm}</h2>
@@ -23,14 +21,13 @@ const FormOrg = ({titleOfTheForm, onClick, fields, className, btnText, googleBtn
           <Button 
             variant="link"
             size="sm"
-            onClick={handleForgotPassword}
+            onClick={() => router.push('/auth/forgot-password')}
             className="text-right ml-[90px] text-[15px] text-gray-500"
           >
             ¿Olvidaste tu contraseña?
           </Button>
         )}
       
-
         <button onClick={onClick} className="w-full bg-black text-white py-2 px-4 rounded-lg font-medium hover:bg-gray-800 transition-colors mt-7">
           {btnText}
         </button>
@@ -46,7 +43,7 @@ const FormOrg = ({titleOfTheForm, onClick, fields, className, btnText, googleBtn
               </div>
             </div>
             
-            <button onClick={onClick} className="w-full border border-gray-300 text-gray-700 py-2 px-2 rounded-lg font-medium hover:bg-gray-50 transition-colors flex items-center justify-center space-x-2">
+            <button onClick={onGoogleClick} className="w-full border border-gray-300 text-gray-700 py-2 px-2 rounded-lg font-medium hover:bg-gray-50 transition-colors flex items-center justify-center space-x-2">
               <span><Image src={IconGoogle} width={30} height={30} alt=""/></span>
               <span>{googleBtnText}</span>
             </button>

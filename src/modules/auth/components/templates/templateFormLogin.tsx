@@ -3,74 +3,50 @@
 import React, { useState } from "react";
 import FormOrg from "../organisms/form";
 import { useLogin } from "../../hooks/useLogin";
+import { useGoogleAuth } from "../../hooks/useGoogleOuth";
 import { toast } from "react-toastify";
 
-
 const TemplateFormLogin = () => {
-  const [formData, setFormData] = useState({
-    email: "",
-    password: "",
-  });
+  // 1. Estado: email y contraseña
+  const [formData, setFormData] = useState({ email: "", password: "" });
 
+  // 2. Hooks: login normal y Google
   const { login, isLoading } = useLogin();
+  const { loginWithGoogle, isLoading: isGoogleLoading } = useGoogleAuth();
 
+  // 3. Cambiar valor de un campo
+  const handleChange = (field: keyof typeof formData) => (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+    setFormData(prev => ({ ...prev, [field]: e.target.value }));
+  };
 
-  //Maneja los cambios en los inputs
-  const handleInputChange =
-    (field: keyof typeof formData) =>
-    (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
-      setFormData((prev) => ({
-        ...prev,
-        [field]: e.target.value,
-      }));
-    };
-
-  //Envía el formulario
+  // 4. Validar y enviar
   const handleSubmit = async () => {
-    console.log("Enviando datos:", formData);
-
     if (!formData.email || !formData.password) {
       toast.warning("Por favor completa todos los campos");
       return;
     }
-
     await login(formData.email, formData.password);
   };
 
+  // 5. Campos del formulario
+  const fields = [
+    { label: "Email", value: formData.email, onChange: handleChange("email"), placeHolder: "tu@email.com", type: "email" },
+    { label: "Contraseña", value: formData.password, onChange: handleChange("password"), placeHolder: "••••••••", type: "password" },
+  ];
 
-
-  //Props del formulario
-  const formProps = {
-    titleOfTheForm: "Sign In",
-    onClick: handleSubmit,
-    fields: [
-      {
-        label: "Email",
-        value: formData.email,
-        onChange: handleInputChange("email"),
-        placeHolder: "Enter your email",
-        type: "email",
-      },
-      {
-        label: "Password",
-        value: formData.password,
-        onChange: handleInputChange("password"),
-        placeHolder: "Enter your password",
-        type: "password",
-      },
-    ],
-    className:
-      "min-w-[320px] max-w-[358px] w-full mx-auto p-5 bg-white rounded-[5px] shadow-[0_20px_50px_rgba(0,0,0,0.3)] border border-gray-100",
-    btnText: isLoading ? "VERIFICANDO..." : "INICIAR SESIÓN",
-    googleBtnText: "INICIAR CON GOOGLE",
-    showForgotPassword: true,
-    showGoogleButton: true,
-  };
-
+  // 6. Renderizar
   return (
-    <div className="space-y-4">
-      <FormOrg {...formProps} />
-    </div>
+    <FormOrg
+      titleOfTheForm="INICIAR SESIÓN"
+      onClick={handleSubmit}
+      onGoogleClick={() => loginWithGoogle()}
+      fields={fields}
+      className="min-w-[320px] max-w-[358px] w-full mx-auto p-5 bg-white rounded-[5px] shadow-[0_20px_50px_rgba(0,0,0,0.3)] border border-gray-100"
+      btnText={(isLoading || isGoogleLoading) ? "VERIFICANDO..." : "INICIAR SESIÓN"}
+      googleBtnText={isGoogleLoading ? "CONECTANDO..." : "INICIAR CON GOOGLE"}
+      showForgotPassword={true}
+      showGoogleButton={true}
+    />
   );
 };
 
